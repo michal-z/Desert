@@ -12,7 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Desert.c" />
-    <ClCompile Include="..\Source\Windows.c" />
+    <ClCompile Include="..\Source\LiveShaderEditing.c" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{35CB1ABC-4FDE-4F4E-B423-B2286C11041B}</ProjectGuid>

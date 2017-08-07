@@ -8,13 +8,20 @@
 static PFNGLCREATEVERTEXARRAYSPROC glCreateVertexArrays;
 static PFNGLCREATEPROGRAMPIPELINESPROC glCreateProgramPipelines;
 static PFNGLCREATESHADERPROGRAMVPROC glCreateShaderProgramv;
+static PFNGLCREATETEXTURESPROC glCreateTextures;
 static PFNGLDELETEVERTEXARRAYSPROC glDeleteVertexArrays;
 static PFNGLDELETEPROGRAMPIPELINESPROC glDeleteProgramPipelines;
 static PFNGLDELETEPROGRAMPROC glDeleteProgram;
+static PFNGLDELETETEXTURESPROC glDeleteTextures;
 static PFNGLUSEPROGRAMSTAGESPROC glUseProgramStages;
 static PFNGLBINDPROGRAMPIPELINEPROC glBindProgramPipeline;
 static PFNGLBINDVERTEXARRAYPROC glBindVertexArray;
 static PFNGLDRAWARRAYSPROC glDrawArrays;
+static PFNGLDISPATCHCOMPUTEPROC glDispatchCompute;
+static PFNGLTEXTURESTORAGE2DPROC glTextureStorage2D;
+static PFNGLTEXTUREPARAMETERIPROC glTextureParameteri;
+static PFNGLBINDTEXTUREPROC glBindTexture;
+static PFNGLACTIVETEXTUREPROC glActiveTexture;
 
 static uint32_t s_Vs;
 static uint32_t s_Fs;
