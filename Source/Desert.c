@@ -5,6 +5,9 @@
 #include <GLFW/glfw3.h>
 
 
+#define IMAGE_WIDTH 1280
+#define IMAGE_HEIGHT 720
+
 static PFNGLCREATEVERTEXARRAYSPROC glCreateVertexArrays;
 static PFNGLCREATEPROGRAMPIPELINESPROC glCreateProgramPipelines;
 static PFNGLCREATESHADERPROGRAMVPROC glCreateShaderProgramv;
@@ -20,13 +23,14 @@ static PFNGLDRAWARRAYSPROC glDrawArrays;
 static PFNGLDISPATCHCOMPUTEPROC glDispatchCompute;
 static PFNGLTEXTURESTORAGE2DPROC glTextureStorage2D;
 static PFNGLTEXTUREPARAMETERIPROC glTextureParameteri;
-static PFNGLBINDTEXTUREPROC glBindTexture;
-static PFNGLACTIVETEXTUREPROC glActiveTexture;
+static PFNGLBINDTEXTUREUNITPROC glBindTextureUnit;
+static PFNGLBINDIMAGETEXTUREPROC glBindImageTexture;
 
 static uint32_t s_Vs;
 static uint32_t s_Fs;
 static uint32_t s_Vao;
 static uint32_t s_Ppo;
+static uint32_t s_Tex;
 
 int ShouldRecompileShaders(void);
 
@@ -70,6 +74,11 @@ static void Initialize(void)
     glCreateVertexArrays(1, &s_Vao);
     glCreateProgramPipelines(1, &s_Ppo);
 
+    glCreateTextures(GL_TEXTURE_2D, 1, &s_Tex);
+    glTextureParameteri(s_Tex, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTextureParameteri(s_Tex, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTextureStorage2D(s_Tex, 1, IMAGE_WIDTH, IMAGE_HEIGHT, GL_RGBA8);
+
     CreateShaders();
 }
 
@@ -107,7 +116,7 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-    GLFWwindow *window = glfwCreateWindow(1280, 720, "Desert", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(IMAGE_WIDTH, IMAGE_HEIGHT, "Desert", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -118,13 +127,20 @@ int main(void)
     glCreateVertexArrays = (PFNGLCREATEVERTEXARRAYSPROC)glfwGetProcAddress("glCreateVertexArrays");
     glCreateProgramPipelines = (PFNGLCREATEPROGRAMPIPELINESPROC)glfwGetProcAddress("glCreateProgramPipelines");
     glCreateShaderProgramv = (PFNGLCREATESHADERPROGRAMVPROC)glfwGetProcAddress("glCreateShaderProgramv");
+    glCreateTextures = (PFNGLCREATETEXTURESPROC)glfwGetProcAddress("glCreateTextures");
     glDeleteVertexArrays = (PFNGLDELETEVERTEXARRAYSPROC)glfwGetProcAddress("glDeleteVertexArrays");
     glDeleteProgramPipelines = (PFNGLDELETEPROGRAMPIPELINESPROC)glfwGetProcAddress("glDeleteProgramPipelines");
     glDeleteProgram = (PFNGLDELETEPROGRAMPROC)glfwGetProcAddress("glDeleteProgram");
+    glDeleteTextures = (PFNGLDELETETEXTURESPROC)glfwGetProcAddress("glDeleteTextures");
     glUseProgramStages = (PFNGLUSEPROGRAMSTAGESPROC)glfwGetProcAddress("glUseProgramStages");
     glBindProgramPipeline = (PFNGLBINDPROGRAMPIPELINEPROC)glfwGetProcAddress("glBindProgramPipeline");
     glBindVertexArray = (PFNGLBINDVERTEXARRAYPROC)glfwGetProcAddress("glBindVertexArray");
     glDrawArrays = (PFNGLDRAWARRAYSPROC)glfwGetProcAddress("glDrawArrays");
+    glDispatchCompute = (PFNGLDISPATCHCOMPUTEPROC)glfwGetProcAddress("glDispatchCompute");
+    glTextureStorage2D = (PFNGLTEXTURESTORAGE2DPROC)glfwGetProcAddress("glTextureStorage2D");
+    glTextureParameteri = (PFNGLTEXTUREPARAMETERIPROC)glfwGetProcAddress("glTextureParameteri");
+    glBindTextureUnit = (PFNGLBINDTEXTUREUNITPROC)glfwGetProcAddress("glBindTextureUnit");
+    glBindImageTexture = (PFNGLBINDIMAGETEXTUREPROC)glfwGetProcAddress("glBindImageTexture");
 
     Initialize();
 
