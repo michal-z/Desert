@@ -3,21 +3,23 @@
 #include <windows.h>
 
 
-int ShouldRecompileShaders(void)
+bool
+ShouldRecompileShaders()
 {
     if ((GetAsyncKeyState('S') & 0x8000) && (GetAsyncKeyState(VK_CONTROL) & 0x8000))
     {
         Sleep(50);
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 #else
 
-int ShouldRecompileShaders(void)
+bool
+ShouldRecompileShaders()
 {
-    return 0;
+    return false;
 }
 
 #endif
